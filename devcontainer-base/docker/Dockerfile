@@ -105,6 +105,7 @@ RUN sudo chown -R ${USER}:${USER} .ssh && \
 RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.2.0/zsh-in-docker.sh)" && \
   sudo chsh -s /usr/bin/zsh $USER
 
+# Tasks Installation
 ARG INSTALL_TASKS=false
 RUN \
   if [ "${INSTALL_TASKS}" = "true" ]; then \
@@ -112,6 +113,12 @@ RUN \
     echo "export PATH=\$PATH:~/.local" >> ~/.zshrc; \
   fi
 
+ARG INSTALL_CODER_CLI=false
+RUN \
+  if [ "${INSTALL_CODER_CLI}" = "true" ]; then \
+    curl -L https://coder.com/install.sh | sh; \
+    echo "Coder Installed"; \
+  fi
 
 
 VOLUME [ "/mnt/dev" ]

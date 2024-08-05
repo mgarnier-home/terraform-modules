@@ -66,7 +66,7 @@ variable "vscode_extensions" {
   default     = []
 }
 
-variable "install_coder" {
+variable "install_coder_cli" {
   type        = bool
   description = "Install coder CLI in the workspace."
   default     = false
@@ -220,6 +220,7 @@ resource "docker_image" "main" {
       CODER_INIT_SCRIPT = replace(coder_agent.main.init_script, "/localhost|127\\.0\\.0\\.1/", "host.docker.internal")
       SETUP_ENV_SCRIPT_B64 = filebase64(var.setup_env_script_path)
       INSTALL_TASKS = tostring(var.install_tasks)
+      INSTALL_CODER_CLI = tostring(var.install_coder_cli)
     }
   }
   triggers = {
