@@ -104,6 +104,8 @@ RUN sudo chown -R ${USER}:${USER} .ssh && \
 # Zsh Installation
 RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.2.0/zsh-in-docker.sh)" && \
   sudo chsh -s /usr/bin/zsh $USER
+SHELL ["/usr/bin/zsh", "-c"]
+
 
 # Tasks Installation
 ARG INSTALL_TASKS=false
@@ -113,11 +115,44 @@ RUN \
     echo "export PATH=\$PATH:~/.local" >> ~/.zshrc; \
   fi
 
+# Coder CLI Installation
 ARG INSTALL_CODER_CLI=false
 RUN \
   if [ "${INSTALL_CODER_CLI}" = "true" ]; then \
     curl -L https://coder.com/install.sh | sh; \
     echo "Coder Installed"; \
+  fi
+
+
+# GO Installation
+ARG INSTALL_GO=false
+RUN \
+  if [ "${INSTALL_GO}" = "true" ]; then \
+    curl -o go.tar.gz https://dl.google.com/go/go1.22.4.linux-amd64.tar.gz; \
+      sudo tar -C /usr/local -xzf go.tar.gz; \
+      rm go.tar.gz; \
+      echo "export PATH=\$PATH:/usr/local/go/bin" >> ~/.zshrc; \
+    echo "Go Installed"; \
+  fi
+
+# NVM Installation
+ARG INSTALL_NVM=false
+RUN \
+  if [ "${INSTALL_NVM}" = "true" ]; then \
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash; \
+    echo "NVM Installed"; \
+    source ~/.zshrc; \
+    nvm install 20; \
+  fi
+
+
+# Ansible Installation
+ARG INSTALL_ANSIBLE=false
+RUN \
+  if [ "${INSTALL_ANSIBLE}" = "true" ]; then \
+    sudo add-apt-repository --yes --update ppa:ansible/ansible; \
+    sudo DEBIAN_FRONTEND=noninteractive TZ=Europe/Paris apt-get install -y ansible; \
+    echo "Ansible Installed"; \
   fi
 
 
