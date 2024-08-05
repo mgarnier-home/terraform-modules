@@ -30,6 +30,7 @@ output "common_extensions" {
     "aaron-bond.better-comments",
     "pranaygp.vscode-css-peek",
     "tomoki1207.pdf",
-    "johnpapa.vscode-peacock"
+    "johnpapa.vscode-peacock",
+    "github.vscode-github-actions"
   ]
 }
