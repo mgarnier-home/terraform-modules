@@ -56,7 +56,7 @@ sudo chsh -s /usr/bin/zsh $USER
 
 if [ -f /setup/setup-env.sh ]; then
   echo "Running setup-env.sh"
-  bash /setup/setup-env.sh
+  /setup/setup-env.sh
 fi
 
 if [ -f /setup/get-workspace-file.sh ]; then

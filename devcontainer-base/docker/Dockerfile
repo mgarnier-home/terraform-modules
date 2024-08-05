@@ -66,7 +66,7 @@ ARG USER=coder
 ARG CODER_INIT_SCRIPT="echo 'Hello from Coder!'"
 ARG SETUP_ENV_SCRIPT_B64=""
 RUN mkdir -p /setup 
-COPY ./scripts/additional-entrypoint.sh /setup/additional-entrypoint.sh
+COPY ./scripts/* /setup/*
 RUN \
   echo "${CODER_INIT_SCRIPT}" > /setup/entrypoint.sh && \
   sed -i "1a sudo bash /setup/additional-entrypoint.sh" /setup/entrypoint.sh && \
