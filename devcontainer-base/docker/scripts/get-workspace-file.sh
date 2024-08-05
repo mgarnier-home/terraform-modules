@@ -1,5 +1,6 @@
 # List all folders in the /mnt/dev directory
 
+
 folders="[]"
 
 for dir in /mnt/dev/*; do
