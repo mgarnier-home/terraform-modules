@@ -102,7 +102,8 @@ RUN sudo chown -R ${USER}:${USER} .ssh && \
 
 
 # Zsh Installation
-RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.2.0/zsh-in-docker.sh)"
+RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.2.0/zsh-in-docker.sh)" && \
+  sudo chsh -s /usr/bin/zsh $USER
 
 RUN \
   if [ "${INSTALL_TASKS}" = "true" ]; then \
