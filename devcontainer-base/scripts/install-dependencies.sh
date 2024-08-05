@@ -42,6 +42,8 @@ echo "INSTALL_NVM: ${INSTALL_NVM}"
 if [ "${INSTALL_NVM}" = "true" ]; then
   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
   echo "NVM Installed"
+
+  nvm install 20
 fi
 
 # Ansible Installation
@@ -52,17 +54,22 @@ if [ "${INSTALL_ANSIBLE}" = "true" ]; then
   echo "Ansible Installed"
 fi
 
+echo "${ADDITIONAL_WORKSPACE_FOLDERS}"
+echo "${GIT_REPOS}"
+
+
+# if [ -f /setup/setup-env.sh ]; then
+#   echo "Running setup-env.sh"
+#   /setup/setup-env.sh
+# fi
+
+# if [ -f /setup/get-workspace-file.sh ]; then
+#   echo "Running get-workspace-file.sh"
+#   bash /setup/get-workspace-file.sh "${ADDITIONAL_WORKSPACE_FOLDERS}"  > ~/workspace.code-workspace
+# fi
+
+
 sudo chsh -s /usr/bin/zsh $USER
-
-if [ -f /setup/setup-env.sh ]; then
-  echo "Running setup-env.sh"
-  /setup/setup-env.sh
-fi
-
-if [ -f /setup/get-workspace-file.sh ]; then
-  echo "Running get-workspace-file.sh"
-  bash /setup/get-workspace-file.sh "${ADDITIONAL_WORKSPACE_FOLDERS}"  > ~/workspace.code-workspace
-fi
 
 
 

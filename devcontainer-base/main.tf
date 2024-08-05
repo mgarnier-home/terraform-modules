@@ -37,6 +37,11 @@ variable "sshd_port" {
   default     = 13338
 }
 
+variable "ssh_private_key" {
+  type        = string
+  description = "The SSH private key to use."
+}
+
 variable "vscode_web_port" {
   type        = number
   description = "The port to run VS Code Web on."
@@ -54,12 +59,6 @@ variable "setup_env_script_path" {
   description = "A script to run after workspace setup."
   default = "echo 'No setup env script provided.'"
 }
-
-# variable "workspace_file_path" {
-#   type        = string
-#   description = "The vscode workspace file to use."
-#   default = ""
-# }
 
 variable "vscode_extensions" {
   type        = list(string)
@@ -95,15 +94,20 @@ variable "install_ansible" {
   type        = bool
   description = "Install Ansible in the workspace."
   default     = false
-  
+}
+
+variable "git_repos" {
+  type        = list(string)
+  description = "The git repositories to clone."
+  default     = []
 }
 
 variable "additional_workspace_folders" {
   type        = list(string)
-  description = "Folders to add to the vscode workspace. (in addition to all the folders found in /mnt/dev after running the setup script)"
-  default     = []
-  
+  description = "Folders to add to the vscode workspace. (in addition to all the git repos)"
+  default     = []  
 }
+
 
 resource "coder_agent" "main" {
   arch            = var.arch
@@ -173,6 +177,8 @@ resource "coder_script" "install-dependencies" {
     INSTALL_NVM : tostring(var.install_nvm),
     INSTALL_ANSIBLE : tostring(var.install_ansible),
     ADDITIONAL_WORKSPACE_FOLDERS : jsonencode(var.additional_workspace_folders),
+    GIT_REPOS : jsonencode(var.git_repos),
+
 
   })
   run_on_start = true
@@ -210,9 +216,10 @@ resource "docker_image" "main" {
     build_args = {
       USER = var.username
       SSHD_PORT = var.sshd_port
+      SSH_PRIVATE_KEY = var.ssh_private_key
       CODER_INIT_SCRIPT = replace(coder_agent.main.init_script, "/localhost|127\\.0\\.0\\.1/", "host.docker.internal")
       SETUP_ENV_SCRIPT_B64 = filebase64(var.setup_env_script_path)
-      # WORKSPACE_FILE_B64 = filebase64(var.workspace_file_path)
+      INSTALL_TASKS = var.install_tasks
     }
   }
   triggers = {
