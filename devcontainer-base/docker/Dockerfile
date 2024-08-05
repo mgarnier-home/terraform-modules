@@ -64,14 +64,11 @@ ARG USER=coder
 
 # Setup the entrypoint
 ARG CODER_INIT_SCRIPT="echo 'Hello from Coder!'"
-ARG SETUP_ENV_SCRIPT_B64=""
 RUN mkdir -p /setup 
 COPY ./scripts /setup
 RUN \
   echo "${CODER_INIT_SCRIPT}" > /setup/entrypoint.sh && \
-  sed -i "1a sudo bash /setup/additional-entrypoint.sh" /setup/entrypoint.sh && \
-  echo "${SETUP_ENV_SCRIPT_B64}" | base64 --decode >> /setup/setup-env.sh
-
+  sed -i "1a sudo bash /setup/additional-entrypoint.sh" /setup/entrypoint.sh
 
   
 
