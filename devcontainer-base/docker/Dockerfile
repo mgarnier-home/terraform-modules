@@ -90,16 +90,15 @@ WORKDIR /home/${USER}
 # Setup user home directory and SSH keys
 COPY ssh .ssh
 ARG WORKSPACE_FILE_B64=""
-RUN echo "${WORKSPACE_FILE_B64}" | base64 --decode >> workspace.code-workspace && \
-  sudo chown -R ${USER}:${USER} workspace.code-workspace && \
-  sudo chown -R ${USER}:${USER} .ssh && \
+RUN sudo chown -R ${USER}:${USER} .ssh && \
   sudo chmod 700 .ssh && \
-  cat \
------BEGIN OPENSSH PRIVATE KEY----- \
-${SSH_PRIVATE_KEY} \
------END OPENSSH PRIVATE KEY----- \
-  > ~/.ssh/id_rsa && \
   sudo chmod 600 .ssh/*
+#   cat \
+# -----BEGIN OPENSSH PRIVATE KEY----- \
+# ${SSH_PRIVATE_KEY} \
+# -----END OPENSSH PRIVATE KEY----- \
+#   > ~/.ssh/id_rsa && \
+  
 
 
 # Zsh Installation
