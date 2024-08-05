@@ -96,11 +96,11 @@ RUN echo "${WORKSPACE_FILE_B64}" | base64 --decode >> workspace.code-workspace &
   sudo chmod 700 .ssh && \
   cat \
 -----BEGIN OPENSSH PRIVATE KEY----- \
-$SSH_PRIVATE_KEY \
+${SSH_PRIVATE_KEY} \
 -----END OPENSSH PRIVATE KEY----- \
   > ~/.ssh/id_rsa && \
   sudo chmod 600 .ssh/*
-  
+
 
 # Zsh Installation
 RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.2.0/zsh-in-docker.sh)"
