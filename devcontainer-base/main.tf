@@ -167,23 +167,23 @@ resource "coder_agent" "main" {
   }
 }
 
-resource "coder_script" "install-dependencies" {
-  agent_id = coder_agent.main.id
-  display_name = "Install dependencies"
-  script   = templatefile("${path.module}/scripts/install-dependencies.sh", {
-    INSTALL_CODER : tostring(var.install_coder),
-    INSTALL_TASKS : tostring(var.install_tasks),
-    INSTALL_GO : tostring(var.install_go),
-    INSTALL_NVM : tostring(var.install_nvm),
-    INSTALL_ANSIBLE : tostring(var.install_ansible),
-    ADDITIONAL_WORKSPACE_FOLDERS : jsonencode(var.additional_workspace_folders),
-    GIT_REPOS : jsonencode(var.git_repos),
+# resource "coder_script" "install-dependencies" {
+#   agent_id = coder_agent.main.id
+#   display_name = "Install dependencies"
+#   script   = templatefile("${path.module}/scripts/install-dependencies.sh", {
+#     INSTALL_CODER : tostring(var.install_coder),
+#     INSTALL_TASKS : tostring(var.install_tasks),
+#     INSTALL_GO : tostring(var.install_go),
+#     INSTALL_NVM : tostring(var.install_nvm),
+#     INSTALL_ANSIBLE : tostring(var.install_ansible),
+#     ADDITIONAL_WORKSPACE_FOLDERS : jsonencode(var.additional_workspace_folders),
+#     GIT_REPOS : jsonencode(var.git_repos),
 
 
-  })
-  run_on_start = true
-  start_blocks_login = true
-}
+#   })
+#   run_on_start = true
+#   start_blocks_login = true
+# }
 
 
 resource "coder_script" "install-vscode" {
