@@ -219,7 +219,7 @@ resource "docker_image" "main" {
       SSH_PRIVATE_KEY = var.ssh_private_key
       CODER_INIT_SCRIPT = replace(coder_agent.main.init_script, "/localhost|127\\.0\\.0\\.1/", "host.docker.internal")
       SETUP_ENV_SCRIPT_B64 = filebase64(var.setup_env_script_path)
-      INSTALL_TASKS = var.install_tasks
+      INSTALL_TASKS = tostring(var.install_tasks)
     }
   }
   triggers = {

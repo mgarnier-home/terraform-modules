@@ -105,6 +105,7 @@ RUN sudo chown -R ${USER}:${USER} .ssh && \
 RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.2.0/zsh-in-docker.sh)" && \
   sudo chsh -s /usr/bin/zsh $USER
 
+ARG INSTALL_TASKS=false
 RUN \
   if [ "${INSTALL_TASKS}" = "true" ]; then \
     sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b .local; \
