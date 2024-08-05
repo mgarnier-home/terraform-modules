@@ -221,6 +221,10 @@ resource "docker_image" "main" {
       SETUP_ENV_SCRIPT_B64 = filebase64(var.setup_env_script_path)
       INSTALL_TASKS = tostring(var.install_tasks)
       INSTALL_CODER_CLI = tostring(var.install_coder_cli)
+      INSTALL_GO = tostring(var.install_go)
+      INSTALL_NVM = tostring(var.install_nvm)
+      INSTALL_ANSIBLE = tostring(var.install_ansible)
+      
     }
   }
   triggers = {
