@@ -98,6 +98,13 @@ variable "install_ansible" {
   
 }
 
+variable "additional_workspace_folders" {
+  type        = list(string)
+  description = "Folders to add to the vscode workspace. (in addition to all the folders found in /mnt/dev after running the setup script)"
+  default     = []
+  
+}
+
 resource "coder_agent" "main" {
   arch            = var.arch
   os              = var.os
@@ -165,6 +172,8 @@ resource "coder_script" "install-dependencies" {
     INSTALL_GO : var.install_go,
     INSTALL_NVM : var.install_nvm,
     INSTALL_ANSIBLE : var.install_ansible,
+    ADDITIONAL_WORKSPACE_FOLDERS : jsonencode(var.additional_workspace_folders),
+
   })
   run_on_start = true
   start_blocks_login = true

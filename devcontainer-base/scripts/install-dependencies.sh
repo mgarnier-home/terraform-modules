@@ -50,6 +50,12 @@ fi
 sudo chsh -s /usr/bin/zsh $USER
 
 if [ -f /setup/setup-env.sh ]; then
-  /setup/setup-env.sh
+  bash /setup/setup-env.sh
 fi
+
+if [ -f /setup/get-workspace-file.sh ]; then
+  bash /setup/get-workspace-file.sh $ADDITIONAL_WORKSPACE_FOLDERS  > /home/mgarnier/workspace.code-workspace
+fi
+
+
 
