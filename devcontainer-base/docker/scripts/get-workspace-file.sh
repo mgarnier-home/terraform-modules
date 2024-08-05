@@ -11,6 +11,8 @@ for dir in /mnt/dev/*; do
   fi;
 done
 
+echo $1
+
 for extra_dir in $(jq -r '.[]' <<< "$1"); do
   if [ -d "$extra_dir" ]; then 
     basename=$(basename "$extra_dir")
