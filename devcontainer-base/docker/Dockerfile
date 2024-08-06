@@ -86,7 +86,8 @@ RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/
 SHELL ["/usr/bin/zsh", "-c"]
 
 # Setup the entrypoint and copy additional scripts
-ARG CODER_INIT_SCRIPT="echo 'Hello from Coder!'"
+ARG CODER_INIT_SCRIPT="#!/bin/bash \
+  sleep infinity"
 RUN sudo mkdir -p /setup; \
   sudo chown -R ${USER}:${USER} /setup
 COPY ./scripts /setup
