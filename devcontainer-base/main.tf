@@ -37,23 +37,13 @@ variable "sshd_port" {
   default     = 13338
 }
 
-variable "vscode_web_port" {
-  type        = number
-  description = "The port to run VS Code Web on."
-  default     = 13339
-}
-
 variable "username" {
   type        = string
   description = "The username of the workspace user."
   default     = "coder"
 }
 
-variable "vscode_extensions" {
-  type        = list(string)
-  description = "VS Code extensions to install."
-  default     = []
-}
+
 
 variable "install_coder_cli" {
   type        = bool
@@ -83,6 +73,22 @@ variable "install_ansible" {
   type        = bool
   description = "Install Ansible in the workspace."
   default     = false
+}
+
+variable "install_vscode_web" {
+  type        = bool
+  description = "Install vscode-web in the workspace."
+  default     = false
+}
+variable "vscode_web_port" {
+  type        = number
+  description = "The port to run VS Code Web on."
+  default     = 13339
+}
+variable "vscode_extensions" {
+  type        = list(string)
+  description = "VS Code extensions to install."
+  default     = []
 }
 
 resource "coder_agent" "main" {
@@ -143,27 +149,6 @@ resource "coder_agent" "main" {
   }
 }
 
-resource "coder_script" "install-vscode" {
-  agent_id = coder_agent.main.id
-  display_name = "Install vscode-web"
-  script   = templatefile("${path.module}/scripts/install-vscode-web.sh", {
-    PORT : var.vscode_web_port,
-    LOG_PATH : "/tmp/vscode-web.log",
-    INSTALL_PREFIX : "/tmp/vscode-web",
-    EXTENSIONS : join(",", var.vscode_extensions),
-    TELEMETRY_LEVEL : "off",
-    OFFLINE : false,
-    USE_CACHED : false,
-    EXTENSIONS_DIR : "/home/${var.username}/.vscode-server/extensions",
-    FOLDER : "/home/${var.username}",
-    AUTO_INSTALL_EXTENSIONS : true,
-
-
-  })
-  run_on_start = true
-  start_blocks_login = true
-}
-
 resource "docker_image" "main" {
   name = var.image_name
   build {
@@ -179,7 +164,14 @@ resource "docker_image" "main" {
       INSTALL_GO = tostring(var.install_go)
       INSTALL_NVM = tostring(var.install_nvm)
       INSTALL_ANSIBLE = tostring(var.install_ansible)
-
+      INSTALL_VSCODE_WEB = tostring(var.install_vscode_web)
+      VSCODE_WEB_PARAMS = jsonencode({
+        port = var.vscode_web_port,
+        logPath = "/tmp/vscode-web.log",
+        installPrefix = "/tmp/vscode-web",
+        extensions = var.vscode_extensions,
+        extensionsDir = "/home/${var.username}/.vscode-server/extensions",
+      })
     }
   }
   triggers = {
