@@ -77,7 +77,7 @@ echo "$EXTENSIONS" | jq -r '.[]' | while read extension; do
 done
 
 if [ -f "/setup/additional-entrypoint.sh" ]; then
-  sed -i "1a ${VSCODE_WEB} serve-web $EXTENSION_ARG --port $PORT --host 0.0.0.0 --accept-server-license-terms --without-connection-token --telemetry-level off > $LOG_PATH 2>&1 &" /setup/additional-entrypoint.sh
+  echo "${VSCODE_WEB} serve-web $EXTENSION_ARG --port $PORT --host 0.0.0.0 --accept-server-license-terms --without-connection-token --telemetry-level off > $LOG_PATH 2>&1 &" >>/setup/additional-entrypoint.sh
 fi
 
 cat /setup/additional-entrypoint.sh
