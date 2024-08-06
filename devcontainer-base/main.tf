@@ -149,27 +149,6 @@ resource "coder_agent" "main" {
   }
 }
 
-# resource "coder_script" "install-vscode" {
-#   agent_id = coder_agent.main.id
-#   display_name = "Install vscode-web"
-#   script   = templatefile("${path.module}/scripts/install-vscode-web.sh", {
-#     PORT : var.vscode_web_port,
-#     LOG_PATH : "/tmp/vscode-web.log",
-#     INSTALL_PREFIX : "/tmp/vscode-web",
-#     EXTENSIONS : join(",", var.vscode_extensions),
-#     TELEMETRY_LEVEL : "off",
-#     OFFLINE : false,
-#     USE_CACHED : false,
-#     EXTENSIONS_DIR : "/home/${var.username}/.vscode-server/extensions",
-#     FOLDER : "/home/${var.username}",
-#     AUTO_INSTALL_EXTENSIONS : true,
-
-
-#   })
-#   run_on_start = true
-#   start_blocks_login = true
-# }
-
 resource "docker_image" "main" {
   name = var.image_name
   build {
@@ -193,9 +172,6 @@ resource "docker_image" "main" {
         extensions = var.vscode_extensions,
         extensionsDir = "/home/${var.username}/.vscode-server/extensions",
       })
-
-
-
     }
   }
   triggers = {
