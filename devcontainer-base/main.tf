@@ -75,7 +75,7 @@ variable "install_ansible" {
   default     = false
 }
 
-variable "install-vscode-web" {
+variable "install_vscode_web" {
   type        = bool
   description = "Install vscode-web in the workspace."
   default     = false
@@ -185,7 +185,7 @@ resource "docker_image" "main" {
       INSTALL_GO = tostring(var.install_go)
       INSTALL_NVM = tostring(var.install_nvm)
       INSTALL_ANSIBLE = tostring(var.install_ansible)
-      INSTALL_VSCODE_WEB = tostring(var.install-vscode-web)
+      INSTALL_VSCODE_WEB = tostring(var.install_vscode_web)
       VSCODE_WEB_PARAMS = jsonencode({
         port = var.vscode_web_port,
         logPath = "/tmp/vscode-web.log",
