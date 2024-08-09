@@ -51,7 +51,7 @@ jobs:
           git add .
           git commit -m "$version"
           # Push la nouvelle branche
-          git push --set-upstream origin $version
+          #git push --set-upstream origin $version
           
 
 
