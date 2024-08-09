@@ -48,8 +48,8 @@ jobs:
           # Copie les fichiers de 'temp' dans le dossier source
           cp -r temp/* .
           # Crée un commit pour la nouvelle version
-          git add .
-          git commit -m "$version"
+          #git add .
+          #git commit -m "$version"
           # Push la nouvelle branche
           #git push --set-upstream origin $version
           
