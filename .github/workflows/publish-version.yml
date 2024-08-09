@@ -50,10 +50,11 @@ jobs:
           # Crée un commit pour la nouvelle version
           git add .
           git commit -m "$version"
+          # Push la nouvelle branche
+          git push origin "$version"
           # Crée un tag pour la nouvelle version
           git tag "$version"
-          # Push la nouvelle branche et le tag
-          git push origin "$version" --tags
+          git push origin tag "$version"
           
 
 
