@@ -20,7 +20,13 @@ jobs:
   publish-version:
     name: Publish version of ${{ inputs.module-to-upgrade }}
     runs-on: ubuntu-latest
+    env:
+      CI_COMMIT_AUTHOR: ${{ github.actor }}
     steps:
+      - name: Setup git
+        run: |
+          git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
+          git config --global user.email "username@users.noreply.github.com"
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -28,13 +34,13 @@ jobs:
       - name: Create new version branch
         run: |
           # Récupere la derniere branche de version pour le module
-          version_number=$(git branch -l --sort=version:refname "${{ inputs.module-to-upgrade }}_*" | tail -n 1 | grep -o '[0-9]\+')
+          version_number=$(git branch -l --sort=version:refname "${{ inputs.module-to-upgrade }}-v*" | tail -n 1 | grep -o '[0-9]\+')
           version_number=${version_number:-0}
           # Incrémente la version
-          version_number=$((version_number + 1))
+          version="${{ inputs.module-to-upgrade }}-v$((version_number + 1))"
           echo "New version number: $version_number"
           # Crée une nouvelle branche pour la nouvelle version
-          git checkout -b "${{ inputs.module-to-upgrade }}_$version_number"
+          git checkout -b "$version"
           # Copie les fichiers du module dans le dossier 'temp'
           cp -r ${{ inputs.module-to-upgrade }} temp
           # Supprime les fichiers des modules
@@ -43,9 +49,9 @@ jobs:
           cp -r temp/* .
           # Crée un commit pour la nouvelle version
           git add .
-          git commit -m "Upgrade ${{ inputs.module-to-upgrade }} to version $version_number"
+          git commit -m "$version"
           # Push la nouvelle branche
-          git push --set-upstream origin "${{ inputs.module-to-upgrade }}_$version_number"
+          git push --set-upstream origin $version
           
 
 
