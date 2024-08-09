@@ -45,7 +45,7 @@ jobs:
           git add .
           git commit -m "Upgrade ${{ inputs.module-to-upgrade }} to version $version_number"
           # Push la nouvelle branche
-          git push origin "${{ inputs.module-to-upgrade }}_$version_number"
+          git push --set-upstream origin "${{ inputs.module-to-upgrade }}_$version_number"
           
 
 
