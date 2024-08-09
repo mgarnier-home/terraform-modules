@@ -1,0 +1,29 @@
+name: Publish version
+run-name: 'Publish new version of ${{ inputs.module-to-upgrade }}'
+# Cette expression permet de générer un nom de workflow dynamique en fonction des inputs, par exemple:
+# - Si tous les inputs sont à false, le nom sera "Inc: XXX"
+# - Si on a les inputs autosaver, dashboard et stats-api à true, le nom sera "Inc: XXX Autosaver Dashboard Stats-api"
+# La syntaxe 'a && b || c' permet de dire "si a est vrai, alors b, sinon c"
+
+on:
+  workflow_dispatch:
+    inputs:
+      module-to-upgrade:
+        description: 'Which module to upgrade'
+        required: true
+        type: choice
+        options:
+          - 'devcontainer-base'
+          - 'common-variables'
+
+jobs:
+  publish-version:
+    name: Publish version of ${{ inputs.module-to-upgrade }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@
+      - name: Install dependencies
+        run: npm install
+      - name: Publish version
+        run: npm run publish-version

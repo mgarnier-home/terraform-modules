@@ -31,6 +31,7 @@ output "common_extensions" {
     "pranaygp.vscode-css-peek",
     "tomoki1207.pdf",
     "johnpapa.vscode-peacock",
-    "github.vscode-github-actions"
+    "github.vscode-github-actions",
+    "me-dutour-mathieu.vscode-github-actions"
   ]
 }
