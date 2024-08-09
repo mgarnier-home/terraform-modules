@@ -40,13 +40,13 @@ jobs:
           version="${{ inputs.module-to-upgrade }}-v$((version_number + 1))"
           echo "New version number: $version_number"
           # Crée une nouvelle branche pour la nouvelle version
-          git checkout -b "$version"
+          #git checkout -b "$version"
           # Copie les fichiers du module dans le dossier 'temp'
-          cp -r ${{ inputs.module-to-upgrade }} temp
+          #cp -r ${{ inputs.module-to-upgrade }} temp
           # Supprime les fichiers des modules
-          rm -rf devcontainer-base common-variables
+          #rm -rf devcontainer-base common-variables
           # Copie les fichiers de 'temp' dans le dossier source
-          cp -r temp/* .
+          #cp -r temp/* .
           # Crée un commit pour la nouvelle version
           #git add .
           #git commit -m "$version"
