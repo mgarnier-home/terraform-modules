@@ -36,10 +36,10 @@ jobs:
         run: |
           # Récupere la derniere branche de version pour le module
           version_number=$(git tag -l --sort=version:refname "${{ inputs.module-to-upgrade }}-v*" | tail -n 1 | grep -o '[0-9]\+')
-          #version_number=${version_number:-0}
+          version_number=${version_number:-0}
           # Incrémente la version
-          #version="${{ inputs.module-to-upgrade }}-v$((version_number + 1))"
-          #echo "New version number: $version_number"
+          version="${{ inputs.module-to-upgrade }}-v$((version_number + 1))"
+          echo "New version: $version"
           # Crée une nouvelle branche pour la nouvelle version
           #git checkout -b "$version"
           # Copie les fichiers du module dans le dossier 'temp'
