@@ -27,8 +27,8 @@ jobs:
           ref: main
       - name: Create new version branch
         run: |
-          # Récupere le dernier tag de version pour le module
-          version_number=$(git tag -l --sort=version:refname "${{ inputs.module-to-upgrade }}_*" | tail -n 1 | grep -o '[0-9]\+')
+          # Récupere la derniere branche de version pour le module
+          version_number=$(git branch -l --sort=version:refname "${{ inputs.module-to-upgrade }}_*" | tail -n 1 | grep -o '[0-9]\+')
           version_number=${version_number:-0}
           # Incrémente la version
           version_number=$((version_number + 1))
@@ -44,8 +44,6 @@ jobs:
           # Crée un commit pour la nouvelle version
           git add .
           git commit -m "Upgrade ${{ inputs.module-to-upgrade }} to version $version_number"
-          # Ajoute le tag de la nouvelle version
-          git tag -a "${{ inputs.module-to-upgrade }}_$version_number" -m "Upgrade ${{ inputs.module-to-upgrade }} to version $version_number"
           # Push la nouvelle branche
           git push origin "${{ inputs.module-to-upgrade }}_$version_number"
           
