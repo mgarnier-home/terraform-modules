@@ -59,10 +59,9 @@ jobs:
           git push origin tag "${{ steps.new-version.outputs.version }}"
       - name: Merge new branch to ${{ inputs.module-to-upgrade }}-latest
         run: |
-          git checkout -B ${{ inputs.module-to-upgrade }}-latest
-          git pull origin ${{ inputs.module-to-upgrade }}-latest
+          git checkout ${{ inputs.module-to-upgrade }}-latest || git checkout -b ${{ inputs.module-to-upgrade }}-latest
           git merge --no-ff "${{ steps.new-version.outputs.version }}"
-          git push origin ${{ inputs.module-to-upgrade }}-latest
+          git push origin ${{ inputs.module-to-upgrade }}-latest          
       - name: Update latest tag
         run: |
           git tag -d ${{ inputs.module-to-upgrade }}-latest
