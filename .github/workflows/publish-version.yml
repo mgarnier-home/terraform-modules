@@ -52,15 +52,15 @@ jobs:
           git add .
           git commit -m "${{ steps.new-version.outputs.version }}"
       - name: Push the new branch
-        run: git push origin "$version"
+        run: git push origin "${{ steps.new-version.outputs.version }}"
       - name: Create a tag for the new version
         run: |
-          git tag "$version"
-          git push origin tag "$version"
+          git tag "${{ steps.new-version.outputs.version }}"
+          git push origin tag "${{ steps.new-version.outputs.version }}"
       - name: Merge new branch to ${{ inputs.module-to-upgrade }}-latest
         run: |
           git checkout -B ${{ inputs.module-to-upgrade }}-latest
-          git merge --no-ff "$version"
+          git merge --no-ff "${{ steps.new-version.outputs.version }}"
           git push origin ${{ inputs.module-to-upgrade }}-latest
           
 
