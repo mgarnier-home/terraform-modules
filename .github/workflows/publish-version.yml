@@ -60,6 +60,7 @@ jobs:
       - name: Merge new branch to ${{ inputs.module-to-upgrade }}-latest
         run: |
           git checkout -B ${{ inputs.module-to-upgrade }}-latest
+          git pull origin ${{ inputs.module-to-upgrade }}-latest
           git merge --no-ff "${{ steps.new-version.outputs.version }}"
           git push origin ${{ inputs.module-to-upgrade }}-latest
       - name: Update latest tag
