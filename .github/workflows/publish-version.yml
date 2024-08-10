@@ -62,6 +62,10 @@ jobs:
           git checkout -B ${{ inputs.module-to-upgrade }}-latest
           git merge --no-ff "${{ steps.new-version.outputs.version }}"
           git push origin ${{ inputs.module-to-upgrade }}-latest
-          
+      - name: Update latest tag
+        run: |
+          git tag -d ${{ inputs.module-to-upgrade }}-latest
+          git tag ${{ inputs.module-to-upgrade }}-latest
+          git push origin tag ${{ inputs.module-to-upgrade }}-latest --force
 
 
