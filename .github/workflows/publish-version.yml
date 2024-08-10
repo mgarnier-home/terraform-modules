@@ -65,7 +65,7 @@ jobs:
       - name: Push all changes
         run: |
           # Push branches
-          git push origin refs/heads/${{ inputs.module-to-upgrade }}-latest refs/head/${{ steps.new-version.outputs.version }}
+          git push origin refs/heads/${{ inputs.module-to-upgrade }}-latest refs/heads/${{ steps.new-version.outputs.version }}
           # Push new version tag
           git push origin refs/tags/${{ steps.new-version.outputs.version }}
           # Force push the latest tag
