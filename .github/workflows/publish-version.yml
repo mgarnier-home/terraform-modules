@@ -32,29 +32,36 @@ jobs:
         with:
           ref: main
           fetch-depth: 0
-      - name: Create new version branch
+      - name: Get last version number
+        id: latest-version-number
         run: |
-          # Récupere la derniere branche de version pour le module
-          version_number=$(git tag -l --sort=version:refname "${{ inputs.module-to-upgrade }}-v*" | tail -n 1 | grep -o '[0-9]\+' || echo 0)
-          # Incrémente la version
-          version="${{ inputs.module-to-upgrade }}-v$((version_number + 1))"
-          echo "New version: $version"
-          # Crée une nouvelle branche pour la nouvelle version
-          git checkout -b "$version"
-          # Copie les fichiers du module dans le dossier 'temp'
+          echo "version=$(git tag -l --sort=version:refname "${{ inputs.module-to-upgrade }}-v*" | tail -n 1 | grep -o '[0-9]\+' || echo 0)" >> $GITHUB_OUTPUT
+      - name: Get new version
+        id: new-version
+        run: |
+          echo "version=${{ inputs.module-to-upgrade }}-v$((${{ steps.latest-version-number.outputs.version }} + 1))" >> $GITHUB_OUTPUT
+      - name: Create new version branch
+        run: git checkout -b ${{ steps.new-version.outputs.version }}
+      - name: Copy files
+        run: |
           cp -r ${{ inputs.module-to-upgrade }} temp
-          # Supprime les fichiers des modules
           rm -rf devcontainer-base common-variables
-          # Copie les fichiers de 'temp' dans le dossier source
           cp -r temp/* .
-          # Crée un commit pour la nouvelle version
+      - name: Commit changes
+        run: |
           git add .
-          git commit -m "$version"
-          # Push la nouvelle branche
-          git push origin "$version"
-          # Crée un tag pour la nouvelle version
+          git commit -m "${{ steps.new-version.outputs.version }}"
+      - name: Push the new branch
+        run: git push origin "$version"
+      - name: Create a tag for the new version
+        run: |
           git tag "$version"
           git push origin tag "$version"
+      - name: Merge new branch to ${{ inputs.module-to-upgrade }}-latest
+        run: |
+          git checkout -B ${{ inputs.module-to-upgrade }}-latest
+          git merge --no-ff "$version"
+          git push origin ${{ inputs.module-to-upgrade }}-latest
           
 
 
