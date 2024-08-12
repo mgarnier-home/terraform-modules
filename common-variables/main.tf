@@ -29,9 +29,10 @@ output "common_extensions" {
     "GitHub.vscode-pull-request-github",
     "aaron-bond.better-comments",
     "pranaygp.vscode-css-peek",
-    "tomoki1207.pdf",
+    # "tomoki1207.pdf",
     "johnpapa.vscode-peacock",
     "github.vscode-github-actions",
-    "me-dutour-mathieu.vscode-github-actions"
+    "me-dutour-mathieu.vscode-github-actions",
+    "shakram02.bash-beautify"
   ]
 }
