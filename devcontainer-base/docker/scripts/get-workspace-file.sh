@@ -18,7 +18,7 @@ done
 newJson=$(jq -n --argjson folders "$folders" '{folders: $folders}')
 
 echo "Merging with base workspace"
-newJson=$(jq -s '.[0] * .[1]' <<< "$baseWorkspace" <<< "$newJson")
+newJson=$(echo "$baseWorkspace $newJson" | jq -s add)
 
 echo "New workspace file content:"
 echo $newJson
