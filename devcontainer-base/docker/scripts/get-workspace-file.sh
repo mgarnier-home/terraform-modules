@@ -1,7 +1,7 @@
 # List all folders in the /mnt/dev directory
 
 
-baseWorkspace=${1:'{}'}
+baseWorkspace=${1:-'{}'}
 
 folders="[]"
 
@@ -18,7 +18,7 @@ done
 newJson=$(jq -n --argjson folders "$folders" '{folders: $folders}')
 
 echo "Merging with base workspace"
-newJson=$(jq -s '.[0] * .[1]' <<< "$baseWorkspace" "$newJson")
+newJson=$(jq -s '.[0] * .[1]' <<< "$baseWorkspace" <<< "$newJson")
 
 echo "New workspace file content:"
 echo $newJson
