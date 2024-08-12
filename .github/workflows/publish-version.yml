@@ -54,21 +54,11 @@ jobs:
       - name: Create a tag for the new version
         run: |
           git tag "${{ steps.new-version.outputs.version }}"
-      - name: Merge new branch to ${{ inputs.module-to-upgrade }}-latest
-        run: |
-          git checkout ${{ inputs.module-to-upgrade }}-latest || git checkout -b ${{ inputs.module-to-upgrade }}-latest
-          git merge --no-ff "${{ steps.new-version.outputs.version }}"
-      - name: Update latest tag
-        run: |
-          git tag -d ${{ inputs.module-to-upgrade }}-latest || echo "No tag to delete"
-          git tag ${{ inputs.module-to-upgrade }}-latest
       - name: Push all changes
         run: |
           # Push branches
-          git push origin refs/heads/${{ inputs.module-to-upgrade }}-latest refs/heads/${{ steps.new-version.outputs.version }}
+          git push origin refs/heads/${{ steps.new-version.outputs.version }}
           # Push new version tag
           git push origin refs/tags/${{ steps.new-version.outputs.version }}
-          # Force push the latest tag
-          git push origin refs/tags/${{ inputs.module-to-upgrade }}-latest --force
 
 
