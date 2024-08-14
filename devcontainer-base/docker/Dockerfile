@@ -73,9 +73,10 @@ USER ${USER}
 WORKDIR /home/${USER}
 
 # Setup user home directory and SSH keys
-COPY ssh .ssh
+COPY home ./
 ARG WORKSPACE_FILE_B64=""
 RUN \
+  sudo chmod 644 ./*; \
   sudo chown -R ${USER}:${USER} .ssh; \
   sudo chmod 700 .ssh; \
   sudo chmod 600 .ssh/*
