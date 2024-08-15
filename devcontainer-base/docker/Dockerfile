@@ -74,9 +74,8 @@ WORKDIR /home/${USER}
 
 # Setup user home directory and SSH keys
 COPY home ./
-ARG WORKSPACE_FILE_B64=""
 RUN \
-  sudo chmod 644 ./*; \
+  sudo chmod 644 ./.p10k.zsh; \
   sudo chown -R ${USER}:${USER} .ssh; \
   sudo chmod 700 .ssh; \
   sudo chmod 600 .ssh/*
@@ -85,6 +84,8 @@ RUN \
 RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.2.0/zsh-in-docker.sh)" && \
   sudo chsh -s /usr/bin/zsh $USER
 SHELL ["/usr/bin/zsh", "-c"]
+
+RUN echo "[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh" >> ~/.zshrc
 
 # Setup the entrypoint and copy additional scripts
 ARG CODER_INIT_SCRIPT="#!/bin/bash \
