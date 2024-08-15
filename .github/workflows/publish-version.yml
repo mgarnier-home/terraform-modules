@@ -40,7 +40,7 @@ jobs:
         id: new-version
         run: |
           echo "version=${{ inputs.module-to-upgrade }}-v$((${{ steps.latest-version-number.outputs.version }} + 1))" >> $GITHUB_OUTPUT
-      - name: Create new version branch
+      - name: Create branch for version ${{ steps.new-version.outputs.version }}
         run: git checkout -b ${{ steps.new-version.outputs.version }}
       - name: Copy files
         run: |
