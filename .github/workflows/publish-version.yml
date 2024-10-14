@@ -1,9 +1,5 @@
 name: Publish version
 run-name: 'Publish new version of ${{ inputs.module-to-upgrade }}'
-# Cette expression permet de générer un nom de workflow dynamique en fonction des inputs, par exemple:
-# - Si tous les inputs sont à false, le nom sera "Inc: XXX"
-# - Si on a les inputs autosaver, dashboard et stats-api à true, le nom sera "Inc: XXX Autosaver Dashboard Stats-api"
-# La syntaxe 'a && b || c' permet de dire "si a est vrai, alors b, sinon c"
 
 on:
   workflow_dispatch:
@@ -60,5 +56,3 @@ jobs:
           git push origin refs/heads/${{ steps.new-version.outputs.version }}
           # Push new version tag
           git push origin refs/tags/${{ steps.new-version.outputs.version }}
-
-
