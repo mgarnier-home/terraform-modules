@@ -90,13 +90,18 @@ variable "vscode_extensions" {
   description = "VS Code extensions to install."
   default     = []
 }
+variable "display_coder_vscode" {
+  type        = bool
+  description = "Display the Coder VS Code instance."
+  default     = false
+}
 
 resource "coder_agent" "main" {
   arch            = var.arch
   os              = var.os
   
   display_apps {
-    vscode = false
+    vscode = var.display_coder_vscode
     port_forwarding_helper = false
     ssh_helper = false
   }
